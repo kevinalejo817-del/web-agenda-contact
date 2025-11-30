@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ContactFlow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white min-h-screen">
+  <div class="max-w-4xl mx-auto p-6">
+    <header class="flex items-center justify-between mb-6">
+      <h1 class="text-3xl font-extrabold tracking-tight">ContactFlow</h1>
+      <a href="/nuevo" class="inline-flex items-center gap-2 bg-gray-800/70 hover:bg-gray-700/80 px-4 py-2 rounded-full border border-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        Agregar
+      </a>
+    </header>
+
+    <main class="grid gap-4 sm:grid-cols-2">
+      <% if (contactos.length === 0) { %>
+        <div class="col-span-full p-6 rounded-2xl bg-gray-800/60 text-gray-300 text-center">Aún no tienes contactos. Pulsa "Agregar" para crear uno.</div>
+      <% } %>
+
+      <% contactos.forEach(c => { %>
+        <div class="p-4 rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700 hover:shadow-lg hover:border-red-500 transition">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-lg font-semibold"><%= c.nombre %> <span class="text-gray-300 font-medium"><%= c.apellido %></span></h2>
+              <p class="text-gray-300 mt-1">📞 <span class="font-mono"><%= c.numero %></span></p>
+              <p class="text-xs text-gray-400 mt-2">🕒 <%= new Date(c.fecha_creada).toLocaleString() %></p>
+            </div>
+            <form method="POST" action="/eliminar/<%= c.id %>">
+              <button type="submit" class="px-3 py-2 rounded-full bg-red-600 hover:bg-red-700">🗑</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </main>
+  </div>
+
+  <footer class="fixed right-6 bottom-6">
+    <a href="/nuevo" class="w-14 h-14 rounded-full bg-red-600 hover:bg-red-700 flex items-center justify-center text-white text-2xl shadow-lg">+</a>
+  </footer>
+</body>
+</html>
